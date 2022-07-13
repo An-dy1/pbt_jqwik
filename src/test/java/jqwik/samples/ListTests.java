@@ -14,6 +14,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 // from https://blog.johanneslink.net/2018/03/26/from-examples-to-properties/
 public class ListTests {
+
+    // could also use @Test - @Example is basically an alias, but meant to make explicit that you're running one example
     @Example
     void reverseList() {
         List<Integer> aList = Arrays.asList(1, 2, 3);
@@ -22,8 +24,13 @@ public class ListTests {
     }
 
     @Property
-    // @Report(Reporting.GENERATED)
+//    @Report(Reporting.GENERATED)
     boolean reverseTwiceIsOriginal(@ForAll List<Integer> original) {
+        // JUnit doesn't usually have arguments for Tests
+        // in JQwik, the argument is something that will be generated for the Test
+        // @ForAll will come up with a list of integers to make up this test List
+        // alternative: @Provide - a method to generate the test list
+
         return reverse(reverse(original)).equals(original);
     }
 
@@ -49,6 +56,7 @@ public class ListTests {
         return joinedList.size() == list1.size() + list2.size();
     }
 
+    // these annotations represent constraints on the inputs
     @Property
     void uniqueInList(@ForAll @Size(5) @UniqueElements List<@IntRange(max = 10) Integer> aList) {
         assertThat(aList).doesNotHaveDuplicates();

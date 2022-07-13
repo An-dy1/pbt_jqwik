@@ -12,7 +12,7 @@ class FizzBuzzTest {
     }
 
     @Provide
-    Arbitrary<Integer> divisibleBy3() {
+        Arbitrary<Integer> divisibleBy3() {
         return Arbitraries.integers()
                 .between(1, 100)
                 .filter(i -> i % 3 == 0);
